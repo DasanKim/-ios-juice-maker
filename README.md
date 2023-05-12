@@ -20,7 +20,7 @@
 ## 👨‍💻 팀원
 | DasanKim | kyungmin |
 | :------: | :------: |
-|<Img src="https://i.imgur.com/EU67fox.jpg" width="200"> |<Img src="https://hackmd.io/_uploads/B1Jf3nDEh.png" width="200"> |
+|<Img src="https://i.imgur.com/EU67fox.jpg" width="200"> |<Img src="https://velog.velcdn.com/images/min3783/post/f41936fe-b7a6-469a-9320-73af0ecab8da/image.jpeg" width="200"> |
 |[Github Profile](https://github.com/DasanKim) |[Github Profile](https://github.com/YaRkyungmin)
 
 </br>
@@ -61,8 +61,8 @@ FruitStore 인스턴스
 ```
 
 ### Diagram
-<p align="center">
-<img width="" src="https://hackmd.io/_uploads/Hyd8H_oEn.png">
+<p>
+<img width="" src="https://velog.velcdn.com/images/min3783/post/0deb20ac-4654-41ec-91c8-f285d8beb061/image.png">
 </p>
 
 </br>
@@ -70,7 +70,7 @@ FruitStore 인스턴스
 
 ## 💻 실행 화면 
 
-<img src="https://hackmd.io/_uploads/H1FF6PiE3.png" width="800">
+<img src="https://cdn.discordapp.com/attachments/1100965172086046891/1106524466877567016/juiceMaker_Step1_screenshot.png" width="800">
 
 </br>
 
