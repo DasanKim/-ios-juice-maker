@@ -245,15 +245,15 @@ FruitStore 인스턴스
 - 로직의 마지막 부분에 오는 분기 처리에서 `guard`를 사용하면 `guard`의 조기탈출 특징을 살릴 수 없었고, 로직적으로 어색했기 때문에 로직의 가독성을 명확하게 하기 위해 `if`를 사용했습니다.
     ```swift!
     private func requestFruitStock(menu fruitJuice: Juice) throws {
-            var isEnoughStock: Bool = Bool()
+        var isEnoughStock: Bool = Bool()
 
-            fruitJuice.recipe.forEach {
-                isEnoughStock = fruitStore.hasEnoughStock(fruit: $0.key, amount: $0.value)
-            }
-            if isEnoughStock == false {
-                throw JuiceMakerError.outOfFruitStock
-            }
+        fruitJuice.recipe.forEach {
+            isEnoughStock = fruitStore.hasEnoughStock(fruit: $0.key, amount: $0.value)
         }
+        if isEnoughStock == false {
+            throw JuiceMakerError.outOfFruitStock
+        }
+    }
     ```
 <br>
 
