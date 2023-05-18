@@ -83,7 +83,7 @@ FruitStore 인스턴스
 과일 종류와 수량을 담는 방법에는 여러가지가 있었고 각각 장단점이 있었습니다.
 
 1. **Nested Type - tuple 이용**
-    ``` swift! 
+    ```swift 
     enum FruitType {
         (중략)
         case mangoKiwiJuice
@@ -109,7 +109,7 @@ FruitStore 인스턴스
   *\*Dictionary는 hashTable 프로토콜을 준수하여 시간 복잡도가 O(1)에 가깝습니다.*
 
 3. **Nested Type - 타입을 갖는 배열 이용**
-    ``` swift!
+    ```swift
        struct Recipe {
             let fruit: FruitType
             var amount: Int
@@ -128,7 +128,7 @@ FruitStore 인스턴스
   - 딕셔너리와 다르게 사용할 때 옵셔널 바인딩 처리를 해주지 않아도 되지만, 딕셔너리 타입과 같이 바로 key값으로 과일의 수량을 꺼낼 수 없어 [Recipe] 배열을 순회하여 찾아야했습니다. 이는 **딕셔너리 타입보다 시간 복잡도가 늘어난다**는 단점이 있었습니다.
 
 4. **enum의 inventoryIndex 프로퍼티를 배열의 index로 활용**
-    ```swift!
+    ```swift
     enum Fruit: CaseIterable {
         case strawberry, banana, pineapple, kiwi, mango
 
@@ -149,7 +149,7 @@ FruitStore 인스턴스
     }
     ```
 
-    ``` swift
+    ```swift
     class FruitStore {
         private(set) var fruitInventory: [Int]
 
@@ -176,7 +176,7 @@ FruitStore 인스턴스
 
 - 처음에는 에러처리를 `Model`에서 해야하는지 `ViewControler`에서 해야하는지 고민했습니다. `blendFruitJuice`메서드에서 에러를 던져 ViewControler에서 받아 처리를 했었지만, 에러를 처리하는 로직은 Model쪽에 위치해야 한다고 판단했기 때문에 `JuiceMaker`타입 안에서 에러를 처리했습니다.
 
-    ``` swift
+    ```swift
     class ViewController: UIViewController {
 
         override func viewDidLoad() {
@@ -202,7 +202,7 @@ FruitStore 인스턴스
 
 - `Model`쪽에서 에러를 처리할 때도 제일 마지막 단에서 에러를 모아 처리하는 것이 로직적으로 에러를 한번에 처리할 수 있다고 판단했기 때문에 `blendFruitJuic`메서드 자체에서 에러를 처리했습니다. 
 
-    ``` swift
+    ```swift
     struct JuiceMaker {
         private let fruitStore: FruitStore = FruitStore(initialStock: 20)
 
@@ -227,7 +227,7 @@ FruitStore 인스턴스
 
 - `if`와 `guard`중에서 조기탈출을 해줄 수 있고, 가독성 측면에서 좋다고 알고있던 `guard`를 우선적으로 사용했는데 항상 `guard`만을 사용하니 언제 `if`를 사용해야하나 고민했습니다.
 
-    ``` swift!
+    ```swift
     private func requestFruitStock(menu fruitJuice: Juice) throws {
         var isEnoughStock: Bool = Bool()
         
@@ -243,7 +243,7 @@ FruitStore 인스턴스
 🔑 **해결방법** <br>
 
 - 로직의 마지막 부분에 오는 분기 처리에서 `guard`를 사용하면 `guard`의 조기탈출 특징을 살릴 수 없었고, 로직적으로 어색했기 때문에 로직의 가독성을 명확하게 하기 위해 `if`를 사용했습니다.
-    ```swift!
+    ```swift
     private func requestFruitStock(menu fruitJuice: Juice) throws {
         var isEnoughStock: Bool = Bool()
 
