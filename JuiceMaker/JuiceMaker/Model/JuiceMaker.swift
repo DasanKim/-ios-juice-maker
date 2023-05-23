@@ -10,7 +10,7 @@ enum JuiceMakerError: Error {
 }
 
 struct JuiceMaker {
-    let fruitStore: FruitStore = FruitStore(initialStock: 10)
+    let fruitStore = FruitStore.shared
     
     func blendFruitJuice(menu fruitJuice: Juice) throws {
         try requestFruitStock(menu: fruitJuice)

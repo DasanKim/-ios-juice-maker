@@ -7,9 +7,8 @@
 import UIKit
 
 final class JuiceMakerViewController: UIViewController {
-
-    private var delegate: Stock?
     let juiceMaker = JuiceMaker()
+    
     @IBOutlet var fruitStockLabels: [UILabel]!
     @IBOutlet var orderButtons: [UIButton]!
     
@@ -20,10 +19,6 @@ final class JuiceMakerViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if let modifiedFruitStocks = delegate?.getStock() {
-            juiceMaker.fruitStore.fruitInventory = modifiedFruitStocks
-        }
-        delegate = nil
         updateFruitStockLabel()
     }
     
@@ -31,15 +26,12 @@ final class JuiceMakerViewController: UIViewController {
         guard let modifyStockViewController = segue.destination as? ModifyStockViewController else {
             return
         }
-        delegate = modifyStockViewController
-        delegate?.setStock(stocks: juiceMaker.fruitStore.fruitInventory)
     }
     
     @IBAction func touchUpOrderButton(_ sender: UIButton) {
         if let buttonIndex = orderButtons.firstIndex(of: sender){
             order(juice: Juice.allCases[buttonIndex])
         }
-        
         updateFruitStockLabel()
     }
     

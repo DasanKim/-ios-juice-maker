@@ -7,14 +7,9 @@
 
 import UIKit
 
-protocol Stock {
-    func setStock(stocks: [Int])
-    func getStock() -> [Int]
-}
+class ModifyStockViewController: UIViewController {
 
-class ModifyStockViewController: UIViewController, Stock {
-
-    var fruitStocks: [Int] = [Int]()
+    var fruitStore: FruitStore = FruitStore.shared
     @IBOutlet var fruitStockLabels: [UILabel]!
         
     override func viewDidLoad() {
@@ -24,23 +19,15 @@ class ModifyStockViewController: UIViewController, Stock {
     
     @IBAction func dismissModal(_ sender: UIButton) {
         // stepper 구현 예정
-        for i in 0..<fruitStocks.count {
-            fruitStocks[i] += 100
+        for i in 0..<fruitStore.fruitInventory.count {
+            fruitStore.fruitInventory[i] += 100
         }
         dismiss(animated: true, completion: nil)
-    }
-
-    func setStock(stocks: [Int]) {
-        fruitStocks = stocks
-    }
-    
-    func getStock() -> [Int] {
-        return fruitStocks
     }
     
     func updateFruitStockLabel() {
         for fruitStockLabel in fruitStockLabels {
-            fruitStockLabel.text = String(fruitStocks[fruitStockLabel.tag])
+            fruitStockLabel.text = String(fruitStore.fruitInventory[fruitStockLabel.tag])
         }
     }
 }

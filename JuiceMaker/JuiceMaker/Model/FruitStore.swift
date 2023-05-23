@@ -5,9 +5,10 @@
 //
 
 class FruitStore {
+    static var shared: FruitStore = FruitStore()
     var fruitInventory: [Int]
 
-    init(initialStock: Int = 10) {
+    private init(initialStock: Int = 10) {
         fruitInventory = Array(repeating: initialStock,
                                count: Fruit.allCases.count)
     }
