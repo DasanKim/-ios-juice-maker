@@ -8,26 +8,37 @@
 import UIKit
 
 class ModifyStockViewController: UIViewController {
-
-    var fruitStore: FruitStore = FruitStore.shared
+    let fruitStore: FruitStore = FruitStore.shared
+    
     @IBOutlet var fruitStockLabels: [UILabel]!
-        
+    @IBOutlet var fruitStockSteppers: [UIStepper]!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         updateFruitStockLabel()
+        initializeStepperValue()
+    }
+    
+    @IBAction func touchUpStepper(_ sender: UIStepper) {
+        if let stepperIndex = fruitStockSteppers.firstIndex(of: sender){
+            fruitStore.fruitInventory[stepperIndex] = Int(sender.value)
+            fruitStockLabels[stepperIndex].text = String(fruitStore.fruitInventory[stepperIndex])
+        }
     }
     
     @IBAction func dismissModal(_ sender: UIButton) {
-        // stepper 구현 예정
-        for i in 0..<fruitStore.fruitInventory.count {
-            fruitStore.fruitInventory[i] += 100
-        }
         dismiss(animated: true, completion: nil)
     }
     
-    func updateFruitStockLabel() {
+    private func updateFruitStockLabel() {
         for fruitStockLabel in fruitStockLabels {
             fruitStockLabel.text = String(fruitStore.fruitInventory[fruitStockLabel.tag])
+        }
+    }
+    
+    private func initializeStepperValue() {
+        for fruitStockStepper in fruitStockSteppers {
+            fruitStockStepper.value = Double(fruitStore.fruitInventory[fruitStockStepper.tag])
         }
     }
 }

@@ -22,12 +22,6 @@ final class JuiceMakerViewController: UIViewController {
         updateFruitStockLabel()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let modifyStockViewController = segue.destination as? ModifyStockViewController else {
-            return
-        }
-    }
-    
     @IBAction func touchUpOrderButton(_ sender: UIButton) {
         if let buttonIndex = orderButtons.firstIndex(of: sender){
             order(juice: Juice.allCases[buttonIndex])
