@@ -7,32 +7,34 @@
 import UIKit
 
 final class JuiceMakerViewController: UIViewController {
-
-    private var delegate: Stock?
     let juiceMaker = JuiceMaker()
+    
     @IBOutlet var fruitStockLabels: [UILabel]!
     @IBOutlet var orderButtons: [UIButton]!
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         updateFruitStockLabel()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(setStock), name: Notification.Name("juiceMakerNotification"), object: nil)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if let modifiedFruitStocks = delegate?.getStock() {
-            juiceMaker.fruitStore.fruitInventory = modifiedFruitStocks
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        let fruitStocks = ["inventory": juiceMaker.fruitStore.fruitInventory]
+        
+        NotificationCenter.default.post(name: Notification.Name("modifyNotification") ,object: nil, userInfo: fruitStocks)
+    }
+    
+    @objc func setStock(_ notification: Notification) {
+        if let stocks = notification.userInfo?["inventory"] as? [Int] {
+            juiceMaker.fruitStore.fruitInventory = stocks
         }
-        delegate = nil
         updateFruitStockLabel()
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        guard let modifyStockViewController = segue.destination as? ModifyStockViewController else {
-            return
-        }
-        delegate = modifyStockViewController
-        delegate?.setStock(stocks: juiceMaker.fruitStore.fruitInventory)
     }
     
     @IBAction func touchUpOrderButton(_ sender: UIButton) {
