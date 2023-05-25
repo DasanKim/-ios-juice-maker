@@ -8,32 +8,16 @@
 import UIKit
 
 class ModifyStockViewController: UIViewController {
-    
     var fruitStocks: [Int] = [Int]()
 
     @IBOutlet var fruitStockLabels: [UILabel]!
     @IBOutlet var fruitStockSteppers: [UIStepper]!
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(getStock), name: Notification.Name("modifyNotification"), object: nil)
-    }
-    
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
+        fruitStocks = FruitStore.shared.fruitInventory
         updateFruitStockLabel()
         initializeFruitStockStepper()
-    }
-    
-    @objc func getStock(_ notification: Notification) {
-        if let stocks = notification.userInfo?["inventory"] as? [Int] {
-            fruitStocks = stocks
-        }
     }
     
     @IBAction func touchUpStepper(_ sender: UIStepper) {
@@ -45,8 +29,7 @@ class ModifyStockViewController: UIViewController {
     }
     
     @IBAction func dismissModal(_ sender: UIButton) {
-        let stock = ["inventory": fruitStocks]
-        NotificationCenter.default.post(name: Notification.Name("juiceMakerNotification") ,object: nil, userInfo: stock)
+        FruitStore.shared.fruitInventory = fruitStocks
         dismiss(animated: true, completion: nil)
     }
     
@@ -55,6 +38,7 @@ class ModifyStockViewController: UIViewController {
             fruitStockLabel.text = String(fruitStocks[fruitStockLabel.tag])
         }
     }
+    
     func initializeFruitStockStepper() {
         for fruitStockStepper in fruitStockSteppers {
             fruitStockStepper.minimumValue = Double(fruitStocks[fruitStockStepper.tag])

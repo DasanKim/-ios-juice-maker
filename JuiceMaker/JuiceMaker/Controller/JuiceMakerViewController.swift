@@ -7,34 +7,23 @@
 import UIKit
 
 final class JuiceMakerViewController: UIViewController {
+    var observation: NSKeyValueObservation?
     let juiceMaker = JuiceMaker()
     
     @IBOutlet var fruitStockLabels: [UILabel]!
     @IBOutlet var orderButtons: [UIButton]!
     
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         updateFruitStockLabel()
-        
-        NotificationCenter.default.addObserver(self, selector: #selector(setStock), name: Notification.Name("juiceMakerNotification"), object: nil)
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        super.viewWillDisappear(animated)
-        let fruitStocks = ["inventory": juiceMaker.fruitStore.fruitInventory]
-        
-        NotificationCenter.default.post(name: Notification.Name("modifyNotification") ,object: nil, userInfo: fruitStocks)
-    }
-    
-    @objc func setStock(_ notification: Notification) {
-        if let stocks = notification.userInfo?["inventory"] as? [Int] {
-            juiceMaker.fruitStore.fruitInventory = stocks
-        }
-        updateFruitStockLabel()
+        observation = juiceMaker.fruitStore.observe(\.fruitInventory,
+                                                     options: [.old, .new],
+                                                     changeHandler: { (object, stocks) in
+            guard let modifiedStock = stocks.newValue else {
+                return
+            }
+            self.updateFruitStockLabel()
+        })
     }
     
     @IBAction func touchUpOrderButton(_ sender: UIButton) {

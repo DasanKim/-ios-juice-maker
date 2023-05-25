@@ -3,11 +3,13 @@
 //  Created by dasan & kyungmin.
 //  Copyright © yagom academy. All rights reserved.
 //
+import Foundation
 
-class FruitStore {
-    var fruitInventory: [Int]
+class FruitStore: NSObject {
+    static var shared: FruitStore = FruitStore()
+    @objc dynamic var fruitInventory: [Int]
 
-    init(initialStock: Int = 10) {
+    private init(initialStock: Int = 10) {
         fruitInventory = Array(repeating: initialStock,
                                count: Fruit.allCases.count)
     }
